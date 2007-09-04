@@ -1,11 +1,13 @@
 #!/bin/bash
+prgdir=$(cd $(dirname $0); pwd -P)
+cd $prgdir
+
 workdir=/tmp/sysinfo-$(date +%s)
 resultsdir=/var/sysinfo
 
 mkdir -m 700 $workdir || ( echo "Could not create temp dir $workdir: $!"; exit 1 )
 
 for i in $(cd reports.d; ls); do 
-	echo $i
 	./reports.d/$i >$workdir/$i 2>&1
 
 	if [ -e "$resultsdir/$i" ]; then
