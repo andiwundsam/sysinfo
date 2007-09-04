@@ -1,0 +1,11 @@
+#!/bin/bash
+
+excludefile=/etc/sysinfo/net-interfaces/exclude-interfaces 
+
+if [ -e $excludefile ]; then
+	netstat -nr | grep -v -E -f $excludefile
+else
+	netstat -nr
+fi
+
+

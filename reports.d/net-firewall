@@ -1,0 +1,17 @@
+#!/bin/bash
+excludefile=/etc/sysinfo/net-firewall/exclude-chains 
+
+all_chains() {
+	iptables -L -n | grep '^Chain ' | cut -d ' ' -f 2
+}
+
+if [ -e $excludefile ]; then
+	chains=$( all_chains | grep -v -E -x -f $excludefile)
+else
+	chains=$( all_chains )
+fi
+
+echo $chains
+for chain in $chains; do
+	iptables -L $chain -n
+done

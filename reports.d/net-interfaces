@@ -1,0 +1,16 @@
+#!/bin/bash
+all_interfaces() {
+	netstat -ia | tail -n +3 | cut -d ' ' -f 1
+}
+
+excludefile=/etc/sysinfo/net-interfaces/exclude-interfaces 
+
+if [ -e $excludefile ]; then
+	interfaces=$( all_interfaces | grep -v -E -x -f $excludefile)
+else
+	interfaces=$( all_interfaces )
+fi
+
+for i in $interfaces; do
+	ifconfig $i | grep -v -E 'RX packets|TX packets|collisions|RX bytes|TX bytes'
+done
