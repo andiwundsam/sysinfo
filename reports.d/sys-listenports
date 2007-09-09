@@ -1,4 +1,4 @@
 #!/bin/bash
 
-netstat -pltn
-netstat -plun
+netstat -pltn | perl -pe 's{\d+/([^ \t]+)[ \t]*$}{$1}'
+netstat -plun | perl -pe 's{\d+/([^ \t]+)[ \t]*$}{$1}'
