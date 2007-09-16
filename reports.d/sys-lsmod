@@ -1,3 +1,9 @@
 #!/bin/bash
 
-lsmod
+excludefile=/etc/sysinfo/sys-lsmod/exclude-modules 
+
+if [ -e $excludefile ]; then
+	lsmod | grep -v -E -x -f $excludefile
+else
+	lsmod
+fi
