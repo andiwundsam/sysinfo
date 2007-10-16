@@ -2,8 +2,12 @@
 
 excludefile=/etc/sysinfo/sys-lsmod/exclude-modules 
 
+list_modules() {
+   lsmod | cut -d ' ' -f 1 | sort
+}
+
 if [ -e $excludefile ]; then
-	lsmod | grep -v -E -x -f $excludefile
+	list_modules | grep -v -E -x -f $excludefile
 else
-	lsmod
+	list_modules
 fi
