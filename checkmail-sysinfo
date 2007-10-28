@@ -1,0 +1,26 @@
+#!/bin/bash
+host=$1
+set -e
+
+statedir=/var/spool/checkmail-sysinfo
+mkdir -p $statedir/$host
+cd $statedir/$host
+
+if [ -e old ]; then
+   rm -rf old
+fi
+
+if [ -e current ]; then
+ mv current old
+else
+  mkdir old
+fi
+
+rsync -a root@$host:/var/sysinfo/ current/
+
+if diff -rN old current >/dev/null; then
+	# identical
+	true
+else
+	diff -u -N -r old current | mail -s "[sysinfo] Configuration changes on host $host" admin@kwundsam.de
+fi
