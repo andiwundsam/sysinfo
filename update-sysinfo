@@ -5,6 +5,10 @@ cd $prgdir
 workdir=/tmp/sysinfo-$(date +%s)
 resultsdir=/var/sysinfo
 
+if [ \! -e $resultsdir ]; then
+   mkdir -m 700 $resultsdir
+fi
+
 mkdir -m 700 $workdir || ( echo "Could not create temp dir $workdir: $!"; exit 1 )
 
 for i in $(cd reports.d; ls); do 
