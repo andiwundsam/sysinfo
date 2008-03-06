@@ -2,8 +2,16 @@
 host="$1"
 set -e
 
+if [ -e /etc/sysinfo.conf ];then
+   . /etc/sysinfo.conf
+fi
+
 if [ -z "$host" ]; then
    host=$(hostname)
+fi
+
+if [ -z "$email_recipient" ]; then
+   email_recipient="admin@kwundsam.de"
 fi
 
 statedir=/var/spool/checkmail-sysinfo
@@ -26,5 +34,5 @@ if diff -rN old current >/dev/null; then
 	# identical
 	true
 else
-	diff -u -N -r old current | mail -s "[sysinfo] Configuration changes on host $host" admin@kwundsam.de
+	diff -u -N -r old current | mail -s "[sysinfo] Configuration changes on host $host" $email_recipient
 fi
