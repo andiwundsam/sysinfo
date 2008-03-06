@@ -1,6 +1,10 @@
 #!/bin/bash
-host=$1
+host="$1"
 set -e
+
+if [ -z "$host" ]; then
+   host=$(hostname)
+fi
 
 statedir=/var/spool/checkmail-sysinfo
 mkdir -p $statedir/$host
