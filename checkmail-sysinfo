@@ -28,7 +28,7 @@ else
   mkdir old
 fi
 
-rsync -a root@$host:/var/sysinfo/ current/
+rsync -e ssh -a root@$host:/var/sysinfo/ current/
 
 if diff -rN old current >/dev/null; then
 	# identical
