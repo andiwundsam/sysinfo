@@ -1,4 +1,15 @@
 #!/bin/bash
 
-netstat -pltn | perl -pe 's{\d+/([^ \t]+)[ \t]*$}{$1}' | sort -n
-netstat -plun | perl -pe 's{\d+/([^ \t]+)[ \t]*$}{$1}' | perl -ane 'unless($F[3] =~ /.*:(\d+)$/ && $1 > 1023) { print $_ }' | sort -n
+    # 1 remove PIDs
+    # 2 change postfix daemon names to [postfix]
+netstat -pltn | \
+    perl -pe 's{\d+/([^ \t]+)[ \t]*$}{$1}' | \
+    perl -ape ' if($F[3] =~ /.*:(\d+)$/ && $1 == 25) { $_ =~ s{smtpd|master}{\[postfix\]}; }' | \
+    sort -n
+
+    # 1 remove PIDs
+    # 2 remove non priviledged ports
+netstat -plun | \
+    perl -pe 's{\d+/([^ \t]+)[ \t]*$}{$1}' | \
+    perl -ane 'unless($F[3] =~ /.*:(\d+)$/ && $1 > 1023) { print $_ }' | \
+    sort -n
