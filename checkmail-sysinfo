@@ -18,17 +18,17 @@ statedir=/var/spool/checkmail-sysinfo
 mkdir -p $statedir/$host
 cd $statedir/$host
 
-if [ -e old ]; then
-   rm -rf old
-fi
+rsync -e ssh -a root@$host:/var/sysinfo/ new/
 
 if [ -e current ]; then
- mv current old
+   if [ -e old ]; then
+      rm -rf old
+   fi
+   mv current old
 else
-  mkdir old
+   mkdir -p old
 fi
-
-rsync -e ssh -a root@$host:/var/sysinfo/ current/
+mv new current
 
 if diff -rN old current >/dev/null; then
 	# identical

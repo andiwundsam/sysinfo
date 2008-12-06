@@ -14,7 +14,7 @@ mkdir -m 700 $workdir || ( echo "Could not create temp dir $workdir: $!"; exit 1
 for i in $(cd reports.d; ls); do 
 	./reports.d/$i >$workdir/$i 2>&1
 
-	if [ -e "$resultsdir/$i" ]; then
+	if [ $? -eq 0 -a -e "$resultsdir/$i" ]; then
 		if diff $resultsdir/$i $workdir/$i >/dev/null; then
 			continue
 		fi
