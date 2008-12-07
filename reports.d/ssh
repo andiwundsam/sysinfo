@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "=== sshd_config ==="
+sshd_config="/etc/ssh/sshd_config"
+if [ -e $sshd_config ]; then
+   cat $sshd_config
+else
+   echo "no $sshd_config" 
+fi   
+
+echo "==== Fingerprinting host keys ==="
+md5sum /etc/ssh/*host*key*
+
+echo "=== root's authorized keys ==="
+if [ -e /root/.ssh/authorized_keys ]; then
+   cat /root/.ssh/authorized_keys
+else
+   echo "no root authorized keys"
+fi
+
+echo "=== root's ssh public keys ==="
+if [ $(find /root/.ssh -name '*id*' 2>/dev/null | wc -l) -gt 0 ]; then
+   md5sum /root/.ssh/*id*
+else
+   echo "no root ssh keys"
+fi   
+
+
