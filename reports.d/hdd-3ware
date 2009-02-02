@@ -1,0 +1,27 @@
+#!/bin/bash
+hw_cli=$(which tw_cli)
+if [ $? -gt 0 ]; then
+	echo "No 3ware controller software"
+	exit 0
+fi
+
+echo "==============================================================================================="
+echo "tw_cli /c0 show all"
+
+tw_cli /c0 show all
+
+echo "==============================================================================================="
+echo "Unit details:"
+
+tw_cli /c0 show | grep -E '^u[[:digit:]]' | cut -f 1 -d ' ' | while read unit; do
+	echo "tw_cli /c0/$unit show "
+	tw_cli /c0/$unit show all
+done
+
+echo "==============================================================================================="
+echo "Port details:"
+
+tw_cli /c0 show | grep -E '^p[[:digit:]]' | cut -f 1 -d ' ' | while read port; do
+	echo "tw_cli /c0/$port show "
+	tw_cli /c0/$port show model firmware serial capacity status
+done

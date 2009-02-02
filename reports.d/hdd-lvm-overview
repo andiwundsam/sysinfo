@@ -1,0 +1,11 @@
+#!/bin/bash
+vgdisplay=$(which vgdisplay)
+if [ $? -gt 0 ]; then
+	echo "LVM not installed"
+	exit 0
+fi
+
+echo "==============================================================================================="
+echo "vgdisplay:"
+
+vgdisplay -v
