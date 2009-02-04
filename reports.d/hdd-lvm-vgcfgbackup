@@ -11,7 +11,7 @@ echo "vgcfgbackup:"
 set -e
 tmpdir=$(mktemp -d)
 cd $tmpdir
-vgcfgbackup -f backup.cfg
-cat backup.cfg
+vgcfgbackup -f '%s.cfg'
+cat *.cfg
 cd /
-rm $tmpdir
+rm -rf $tmpdir
