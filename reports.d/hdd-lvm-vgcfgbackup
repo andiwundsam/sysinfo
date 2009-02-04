@@ -8,7 +8,10 @@ fi
 echo "==============================================================================================="
 echo "vgcfgbackup:"
 
-tmpfile=$(mktemp)
-vgcfgbackup -f $tmpfile
-cat $tmpfile
-rm $tmpfile
+set -e
+tmpdir=$(mktemp -d)
+cd $tmpdir
+vgcfgbackup -f backup.cfg
+cat backup.cfg
+cd /
+rm $tmpdir
