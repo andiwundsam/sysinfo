@@ -1,5 +1,9 @@
 #!/bin/bash
 vgdisplay=$(which vgcfgbackup)
+
+# Do not report this in email
+echo "# @IgnoreForMail"
+
 if [ $? -gt 0 ]; then
 	echo "LVM not installed"
 	exit 0

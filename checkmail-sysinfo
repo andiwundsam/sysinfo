@@ -19,6 +19,7 @@ mkdir -p $statedir/$host
 cd $statedir/$host
 
 rsync -e ssh -a root@$host:/var/sysinfo/ new/
+grep  -l -R '@IgnoreForMail' new | xargs --no-run-if-empty -d $"\n" rm
 
 if [ -e current ]; then
    if [ -e old ]; then
