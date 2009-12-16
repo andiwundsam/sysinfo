@@ -1,0 +1,5 @@
+if [ -e /etc/apt/sources.list ]; then
+    cat /etc/apt/sources.list
+else
+    echo "--- no /etc/apt/sources.list ---"
+fi
